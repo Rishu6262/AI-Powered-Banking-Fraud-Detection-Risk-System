@@ -378,10 +378,10 @@ B.Tech Computer Science Student
 Machine Learning | Data Science | Python Developer
 
 GitHub:
-https://github.com/yourusername
+https://github.com/Rishu6262
 
 LinkedIn:
-https://linkedin.com/in/yourprofile
+https://www.linkedin.com/feed/
 
 ---
 
