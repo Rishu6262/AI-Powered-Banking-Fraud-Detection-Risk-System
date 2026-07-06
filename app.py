@@ -61,11 +61,14 @@ border-radius:10px;
 # ===========================
 
 try:
-    model=joblib.load("best_fraud_model.pkl")
-    scaler=joblib.load("scaler.pkl")
-except:
-    model=None
-    scaler=None
+    model = joblib.load("best_fraud_model.pkl")
+    scaler = joblib.load("scaler.pkl")
+    feature_columns = joblib.load("feature_columns.pkl")
+except Exception as e:
+    st.error(f"Loading Error: {e}")
+    model = None
+    scaler = None
+    feature_columns = None
 
 # ===========================
 # SIDEBAR
