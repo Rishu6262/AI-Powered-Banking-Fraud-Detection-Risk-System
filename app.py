@@ -208,3 +208,223 @@ with col2:
     [0,1])
 
 predict=st.button("🔍 Predict Fraud")
+
+# ==========================================
+# PREDICTION + RESULT DASHBOARD
+# ==========================================
+
+if predict:
+
+    # --------------------------
+    # Encode Categorical Values
+    # --------------------------
+
+    payment_map = {
+        "UPI": 0,
+        "Card": 1,
+        "Net Banking": 2,
+        "Wallet": 3
+    }
+
+    auth_map = {
+        "Password": 0,
+        "OTP": 1,
+        "Biometric": 2
+    }
+
+    payment_channel_encoded = payment_map[payment_channel]
+    authentication_encoded = auth_map[authentication_type]
+
+    # --------------------------
+    # Create Input DataFrame
+    # --------------------------
+
+    input_df = pd.DataFrame([{
+        "transaction_amount": transaction_amount,
+        "login_attempts": login_attempts,
+        "device_risk_score": device_risk_score,
+        "transfer_frequency": transfer_frequency,
+        "anomaly_score": anomaly_score,
+        "account_age_days": account_age_days,
+        "transaction_time_hour": transaction_time_hour,
+        "failed_transactions_last_30d": failed_transactions_last_30d,
+        "avg_monthly_balance": avg_monthly_balance,
+        "daily_transaction_count": daily_transaction_count,
+        "geo_distance_km": geo_distance_km,
+        "session_duration_minutes": session_duration_minutes,
+        "transaction_velocity_score": transaction_velocity_score,
+        "payment_channel": payment_channel_encoded,
+        "authentication_type": authentication_encoded,
+        "card_present_flag": card_present_flag,
+        "international_transaction_flag": international_transaction_flag,
+        "suspicious_ip_flag": suspicious_ip_flag
+    }])
+
+    st.divider()
+
+    st.subheader("Transaction Summary")
+    st.dataframe(input_df, use_container_width=True)
+
+    if model is None or scaler is None:
+
+        st.error("Model or Scaler file not found!")
+
+    else:
+
+        try:
+
+            scaled_data = scaler.transform(input_df)
+
+            prediction = model.predict(scaled_data)[0]
+
+            if hasattr(model, "predict_proba"):
+                probability = model.predict_proba(scaled_data)[0][1]
+            else:
+                probability = 0.50
+
+            st.divider()
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                st.subheader("Fraud Probability")
+
+                st.progress(float(probability))
+
+                st.metric(
+                    "Probability",
+                    f"{probability*100:.2f}%"
+                )
+
+            with col2:
+
+                if prediction == 1:
+
+                    st.error("🚨 FRAUD TRANSACTION DETECTED")
+
+                else:
+
+                    st.success("✅ SAFE TRANSACTION")
+
+            st.divider()
+
+            # --------------------------
+            # Risk Level
+            # --------------------------
+
+            st.subheader("Risk Level")
+
+            if probability < 0.30:
+
+                st.success("🟢 LOW RISK")
+
+            elif probability < 0.70:
+
+                st.warning("🟡 MEDIUM RISK")
+
+            else:
+
+                st.error("🔴 HIGH RISK")
+
+            # --------------------------
+            # Risk Factors
+            # --------------------------
+
+            st.subheader("Important Risk Indicators")
+
+            risk_df = pd.DataFrame({
+
+                "Feature":[
+
+                    "Transaction Amount",
+                    "Device Risk",
+                    "Anomaly Score",
+                    "Velocity Score",
+                    "Geo Distance"
+
+                ],
+
+                "Value":[
+
+                    transaction_amount,
+                    device_risk_score,
+                    anomaly_score,
+                    transaction_velocity_score,
+                    geo_distance_km
+
+                ]
+
+            })
+
+            st.bar_chart(
+                risk_df.set_index("Feature")
+            )
+
+            # --------------------------
+            # Download Report
+            # --------------------------
+
+            report = input_df.copy()
+
+            report["Prediction"] = prediction
+
+            report["Fraud Probability"] = round(probability*100,2)
+
+            csv = report.to_csv(index=False)
+
+            st.download_button(
+
+                label="📥 Download Prediction Report",
+
+                data=csv,
+
+                file_name="fraud_prediction_report.csv",
+
+                mime="text/csv"
+
+            )
+
+        except Exception as e:
+
+            st.error(f"Prediction Error : {e}")
+
+# ==========================================
+# ABOUT PAGE
+# ==========================================
+
+if menu == "About":
+
+    st.title("About Project")
+
+    st.info("""
+
+AI Powered Banking Fraud Detection System
+
+Features
+
+✔ Fraud Prediction
+
+✔ Risk Analysis
+
+✔ ML Model
+
+✔ Interactive Dashboard
+
+✔ Streamlit Deployment
+
+Developer:
+Rishu Gurjar
+
+""")
+
+# ==========================================
+# FOOTER
+# ==========================================
+
+st.markdown("---")
+
+st.markdown(
+    "<center>🏦 AI Powered Banking Fraud Detection | Built with ❤️ using Streamlit</center>",
+    unsafe_allow_html=True
+)
