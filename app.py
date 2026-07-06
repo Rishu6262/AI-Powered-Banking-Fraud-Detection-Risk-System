@@ -60,12 +60,12 @@ border-radius:10px;
 # LOAD MODEL
 # ===========================
 
-try:
-    model=joblib.load("best_fraud_model.pkl")
-    scaler=joblib.load("scaler.pkl")
-except:
-    model=None
-    scaler=None
+# try:
+#     model=joblib.load("best_fraud_model.pkl")
+#     scaler=joblib.load("scaler.pkl")
+# except:
+#     model=None
+#     scaler=None
 
 # ===========================
 # SIDEBAR
