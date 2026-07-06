@@ -265,20 +265,33 @@ if predict:
 
     st.divider()
 
-    st.subheader("Transaction Summary")
-    st.dataframe(input_df, use_container_width=True)
+   st.subheader("Transaction Summary")
+st.dataframe(input_df, use_container_width=True)
 
-    if model is None or scaler is None:
+if model is None or scaler is None or feature_columns is None:
 
-        st.error("Model or Scaler file not found!")
+    st.error("Model, Scaler or Feature Columns file not found!")
 
-    else:
+else:
 
-        try:
+    try:
 
-            scaled_data = scaler.transform(input_df)
+        # Convert categorical columns to dummy variables
+        input_df = pd.get_dummies(input_df)
 
-            prediction = model.predict(scaled_data)[0]
+        # Add missing columns
+        for col in feature_columns:
+            if col not in input_df.columns:
+                input_df[col] = 0
+
+        # Keep same column order as training
+        input_df = input_df[feature_columns]
+
+        # Scale
+        scaled_data = scaler.transform(input_df)
+
+        # Prediction
+        prediction = model.predict(scaled_data)[0]
 
             if hasattr(model, "predict_proba"):
                 probability = model.predict_proba(scaled_data)[0][1]
