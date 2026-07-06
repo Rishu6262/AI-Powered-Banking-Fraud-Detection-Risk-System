@@ -265,7 +265,7 @@ if predict:
 
     st.divider()
 
-   st.subheader("Transaction Summary")
+st.subheader("Transaction Summary")
 st.dataframe(input_df, use_container_width=True)
 
 if model is None or scaler is None or feature_columns is None:
