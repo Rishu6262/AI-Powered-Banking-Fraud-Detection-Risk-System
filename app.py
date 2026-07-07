@@ -217,3 +217,113 @@ with col4:
     """,unsafe_allow_html=True)
 
 st.write("")
+# ==========================================================
+# SIDEBAR - TRANSACTION INPUT FORM
+# ==========================================================
+
+st.sidebar.title("🏦 Transaction Details")
+
+transaction_amount = st.sidebar.number_input(
+    "Transaction Amount ($)",
+    min_value=0.0,
+    value=1000.0,
+    step=100.0
+)
+
+login_attempts = st.sidebar.slider(
+    "Login Attempts",
+    0,20,2
+)
+
+device_risk_score = st.sidebar.slider(
+    "Device Risk Score",
+    0.0,1.0,0.30
+)
+
+transfer_frequency = st.sidebar.slider(
+    "Transfer Frequency",
+    0,100,10
+)
+
+anomaly_score = st.sidebar.slider(
+    "Anomaly Score",
+    0.0,1.0,0.20
+)
+
+account_age_days = st.sidebar.slider(
+    "Account Age (Days)",
+    1,5000,365
+)
+
+transaction_time_hour = st.sidebar.slider(
+    "Transaction Hour",
+    0,23,12
+)
+
+failed_transactions_last_30d = st.sidebar.slider(
+    "Failed Transactions (30 Days)",
+    0,50,2
+)
+
+avg_monthly_balance = st.sidebar.number_input(
+    "Average Monthly Balance",
+    value=50000.0
+)
+
+daily_transaction_count = st.sidebar.slider(
+    "Daily Transactions",
+    0,100,5
+)
+
+geo_distance_km = st.sidebar.slider(
+    "Geo Distance (KM)",
+    0.0,5000.0,100.0
+)
+
+session_duration_minutes = st.sidebar.slider(
+    "Session Duration (Minutes)",
+    1,300,30
+)
+
+transaction_velocity_score = st.sidebar.slider(
+    "Velocity Score",
+    0.0,1.0,0.40
+)
+
+payment_channel = st.sidebar.selectbox(
+    "Payment Channel",
+    [
+        "UPI",
+        "Credit Card",
+        "Debit Card",
+        "Net Banking",
+        "Wallet"
+    ]
+)
+
+authentication_type = st.sidebar.selectbox(
+    "Authentication",
+    [
+        "OTP",
+        "PIN",
+        "Biometric",
+        "Password"
+    ]
+)
+
+card_present_flag = st.sidebar.selectbox(
+    "Card Present",
+    ["Yes","No"]
+)
+
+international_transaction_flag = st.sidebar.selectbox(
+    "International Transaction",
+    ["Yes","No"]
+)
+
+suspicious_ip_flag = st.sidebar.selectbox(
+    "Suspicious IP",
+    ["Yes","No"]
+)
+
+predict_btn = st.sidebar.button("🚀 Predict Fraud")
