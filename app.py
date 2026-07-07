@@ -402,7 +402,7 @@ else:
             )
 
 
-            except Exception as e:
+        except Exception as e:
                 st.error(f"Prediction Error : {e}")
 
 # ==========================================
