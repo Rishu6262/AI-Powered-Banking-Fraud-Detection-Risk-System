@@ -401,9 +401,9 @@ else:
 
             )
 
-            except Exception as e:
 
-            st.error(f"Prediction Error : {e}")
+            except Exception as e:
+                st.error(f"Prediction Error : {e}")
 
 # ==========================================
 # ABOUT PAGE
