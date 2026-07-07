@@ -293,10 +293,10 @@ else:
         # Prediction
         prediction = model.predict(scaled_data)[0]
 
-            if hasattr(model, "predict_proba"):
-                probability = model.predict_proba(scaled_data)[0][1]
-            else:
-                probability = 0.50
+        if hasattr(model, "predict_proba"):
+            probability = model.predict_proba(scaled_data)[0][1]
+        else:
+            probability = 0.50
 
             st.divider()
 
