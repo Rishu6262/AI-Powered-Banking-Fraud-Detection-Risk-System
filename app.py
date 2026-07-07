@@ -327,3 +327,65 @@ suspicious_ip_flag = st.sidebar.selectbox(
 )
 
 predict_btn = st.sidebar.button("🚀 Predict Fraud")
+st.subheader("📋 Transaction Summary")
+
+c1,c2,c3 = st.columns(3)
+
+with c1:
+    st.info(f"""
+**Transaction Amount**
+
+${transaction_amount:,.2f}
+""")
+
+    st.info(f"""
+**Login Attempts**
+
+{login_attempts}
+""")
+
+    st.info(f"""
+**Transfer Frequency**
+
+{transfer_frequency}
+""")
+
+with c2:
+
+    st.info(f"""
+**Monthly Balance**
+
+${avg_monthly_balance:,.2f}
+""")
+
+    st.info(f"""
+**Geo Distance**
+
+{geo_distance_km:.1f} KM
+""")
+
+    st.info(f"""
+**Session Duration**
+
+{session_duration_minutes} Minutes
+""")
+
+with c3:
+
+    st.info(f"""
+**Payment**
+
+{payment_channel}
+""")
+
+    st.info(f"""
+**Authentication**
+
+{authentication_type}
+""")
+
+    st.info(f"""
+**Velocity Score**
+
+{transaction_velocity_score}
+""")
