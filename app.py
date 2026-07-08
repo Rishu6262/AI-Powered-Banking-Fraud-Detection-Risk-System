@@ -933,238 +933,238 @@ elif page == "🔍 Fraud Prediction":
 # ANALYTICS PAGE
 # ============================================================
 
-elif page == "📊 Analytics":
+# elif page == "📊 Analytics":
 
-    st.title("📊 Banking Analytics Dashboard")
+#     st.title("📊 Banking Analytics Dashboard")
 
-    if df.empty:
+#     if df.empty:
 
-        st.warning("Dataset not found.")
-        st.stop()
+#         st.warning("Dataset not found.")
+#         st.stop()
 
-    st.success(f"Dataset Loaded Successfully ({len(df)} Records)")
+#     st.success(f"Dataset Loaded Successfully ({len(df)} Records)")
 
-    st.subheader("Dataset Columns")
+#     st.subheader("Dataset Columns")
 
-    st.write(df.columns.tolist())
+#     st.write(df.columns.tolist())
 
-    # =====================================================
-    # KPI CARDS
-    # =====================================================
+#     # =====================================================
+#     # KPI CARDS
+#     # =====================================================
 
-    total_transactions = len(df)
+#     total_transactions = len(df)
 
-    total_fraud = df["fraud_label"].sum()
+#     total_fraud = df["fraud_label"].sum()
 
-    fraud_rate = (total_fraud / total_transactions) * 100
+#     fraud_rate = (total_fraud / total_transactions) * 100
 
-    avg_amount = df["transaction_amount"].mean()
+#     avg_amount = df["transaction_amount"].mean()
 
-    c1,c2,c3,c4 = st.columns(4)
+#     c1,c2,c3,c4 = st.columns(4)
 
-    c1.metric(
-        "Transactions",
-        f"{total_transactions:,}"
-    )
+#     c1.metric(
+#         "Transactions",
+#         f"{total_transactions:,}"
+#     )
 
-    c2.metric(
-        "Fraud Cases",
-        f"{total_fraud:,}"
-    )
+#     c2.metric(
+#         "Fraud Cases",
+#         f"{total_fraud:,}"
+#     )
 
-    c3.metric(
-        "Fraud Rate",
-        f"{fraud_rate:.2f}%"
-    )
+#     c3.metric(
+#         "Fraud Rate",
+#         f"{fraud_rate:.2f}%"
+#     )
 
-    c4.metric(
-        "Avg Amount",
-        f"₹ {avg_amount:,.0f}"
-    )
+#     c4.metric(
+#         "Avg Amount",
+#         f"₹ {avg_amount:,.0f}"
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # DATA PREVIEW
-    # =====================================================
+#     # =====================================================
+#     # DATA PREVIEW
+#     # =====================================================
 
-    st.subheader("Dataset Preview")
+#     st.subheader("Dataset Preview")
 
-    st.dataframe(
-        df.head(),
-        use_container_width=True
-    )
+#     st.dataframe(
+#         df.head(),
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # FRAUD DISTRIBUTION
-    # =====================================================
+#     # =====================================================
+#     # FRAUD DISTRIBUTION
+#     # =====================================================
 
-    st.subheader("Fraud Distribution")
+#     st.subheader("Fraud Distribution")
 
-    fraud_counts = df["fraud_label"].value_counts()
+#     fraud_counts = df["fraud_label"].value_counts()
 
-    fig = px.pie(
+#     fig = px.pie(
 
-        values=fraud_counts.values,
+#         values=fraud_counts.values,
 
-        names=["Safe","Fraud"],
+#         names=["Safe","Fraud"],
 
-        hole=.45,
+#         hole=.45,
 
-        title="Fraud vs Genuine"
+#         title="Fraud vs Genuine"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # PAYMENT CHANNEL
-    # =====================================================
+#     # =====================================================
+#     # PAYMENT CHANNEL
+#     # =====================================================
 
-    st.subheader("Payment Channel")
+#     st.subheader("Payment Channel")
 
-    payment = df["payment_channel"].value_counts()
+#     payment = df["payment_channel"].value_counts()
 
-    fig = px.bar(
+#     fig = px.bar(
 
-        x=payment.index,
+#         x=payment.index,
 
-        y=payment.values,
+#         y=payment.values,
 
-        title="Payment Channel Distribution"
+#         title="Payment Channel Distribution"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # AUTHENTICATION
-    # =====================================================
+#     # =====================================================
+#     # AUTHENTICATION
+#     # =====================================================
 
-    st.subheader("Authentication Type")
+#     st.subheader("Authentication Type")
 
-    auth = df["authentication_type"].value_counts()
+#     auth = df["authentication_type"].value_counts()
 
-    fig = px.bar(
+#     fig = px.bar(
 
-        x=auth.index,
+#         x=auth.index,
 
-        y=auth.values,
+#         y=auth.values,
 
-        title="Authentication Distribution"
+#         title="Authentication Distribution"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # AMOUNT HISTOGRAM
-    # =====================================================
+#     # =====================================================
+#     # AMOUNT HISTOGRAM
+#     # =====================================================
 
-    st.subheader("Transaction Amount Distribution")
+#     st.subheader("Transaction Amount Distribution")
 
-    fig = px.histogram(
+#     fig = px.histogram(
 
-        df,
+#         df,
 
-        x="transaction_amount",
+#         x="transaction_amount",
 
-        nbins=40,
+#         nbins=40,
 
-        title="Transaction Amount"
+#         title="Transaction Amount"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # DEVICE RISK
-    # =====================================================
+#     # =====================================================
+#     # DEVICE RISK
+#     # =====================================================
 
-    st.subheader("Device Risk Score")
+#     st.subheader("Device Risk Score")
 
-    fig = px.histogram(
+#     fig = px.histogram(
 
-        df,
+#         df,
 
-        x="device_risk_score",
+#         x="device_risk_score",
 
-        nbins=30,
+#         nbins=30,
 
-        title="Device Risk Score"
+#         title="Device Risk Score"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # CORRELATION
-    # =====================================================
+#     # =====================================================
+#     # CORRELATION
+#     # =====================================================
 
-    st.subheader("Correlation Matrix")
+#     st.subheader("Correlation Matrix")
 
-    corr = df.select_dtypes(include=np.number).corr()
+#     corr = df.select_dtypes(include=np.number).corr()
 
-    fig = px.imshow(
+#     fig = px.imshow(
 
-        corr,
+#         corr,
 
-        text_auto=".2f",
+#         text_auto=".2f",
 
-        aspect="auto",
+#         aspect="auto",
 
-        color_continuous_scale="Viridis"
+#         color_continuous_scale="Viridis"
 
-    )
+#     )
 
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+#     st.plotly_chart(
+#         fig,
+#         use_container_width=True
+#     )
 
-    st.divider()
+#     st.divider()
 
-    # =====================================================
-    # SUMMARY
-    # =====================================================
+#     # =====================================================
+#     # SUMMARY
+#     # =====================================================
 
-    st.subheader("Dataset Statistics")
+#     st.subheader("Dataset Statistics")
 
-    st.dataframe(
-        df.describe(),
-        use_container_width=True
-    )
+#     st.dataframe(
+#         df.describe(),
+#         use_container_width=True
+#     )
 
-# ============================================================
-# ABOUT PAGE
-# ============================================================
+# # ============================================================
+# # ABOUT PAGE
+# # ============================================================
 
 elif page == "ℹ About":
 
