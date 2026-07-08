@@ -430,6 +430,49 @@ elif page == "🔍 Fraud Prediction":
         })
 
         st.success("✅ Input Captured Successfully")
+
+if model is None:
+    st.error("❌ Model not loaded")
+
+else:
+
+    try:
+
+        if scaler is not None:
+            input_scaled = scaler.transform(input_data)
+        else:
+            input_scaled = input_data
+
+        prediction = model.predict(input_scaled)[0]
+
+        if hasattr(model, "predict_proba"):
+            probability = model.predict_proba(input_scaled)[0][1]
+        else:
+            probability = 0.50
+
+        st.divider()
+
+        if prediction == 1:
+
+            st.error("🚨 Fraud Transaction Detected")
+
+        else:
+
+            st.success("✅ Genuine Transaction")
+
+        st.metric(
+            "Fraud Probability",
+            f"{probability*100:.2f}%"
+        )
+
+        st.progress(float(probability))
+
+        st.dataframe(input_data)
+
+    except Exception as e:
+
+        st.error(e)
+        
     
 
 
