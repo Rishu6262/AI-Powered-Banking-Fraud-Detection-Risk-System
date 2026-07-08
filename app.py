@@ -944,13 +944,17 @@ elif page == "📊 Analytics":
 
     st.success(f"Dataset Loaded Successfully ({len(df)} Records)")
 
+    st.subheader("Dataset Columns")
+
+    st.write(df.columns.tolist())
+
     # =====================================================
     # KPI CARDS
     # =====================================================
 
     total_transactions = len(df)
 
-    total_fraud = df["is_fraud"].sum()
+    total_fraud = df["fraud_label"].sum()
 
     fraud_rate = (total_fraud / total_transactions) * 100
 
@@ -999,7 +1003,7 @@ elif page == "📊 Analytics":
 
     st.subheader("Fraud Distribution")
 
-    fraud_counts = df["is_fraud"].value_counts()
+    fraud_counts = df["fraud_label"].value_counts()
 
     fig = px.pie(
 
