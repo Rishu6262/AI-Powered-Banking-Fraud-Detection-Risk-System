@@ -1368,6 +1368,9 @@ st.markdown(
 
 <h4>
 WORKING ON ANALYTICS IN FUTURE SIDE
+
+</H4>
+
 🏦 AI Powered Banking Fraud Detection
 
 </h4>
