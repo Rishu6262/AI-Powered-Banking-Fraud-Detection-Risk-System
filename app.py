@@ -1,473 +1,439 @@
-# import streamlit as st
-# import pandas as pd
-# import numpy as np
-# import joblib
-# import plotly.graph_objects as go
-# import plotly.express as px
-
-# # ----------------------------------------------------
-# # Page Configuration
-# # ----------------------------------------------------
-
-# st.set_page_config(
-#     page_title="AI Banking Fraud Detection",
-#     page_icon="🏦",
-#     layout="wide",
-#     initial_sidebar_state="expanded"
-# )
-
-# # ----------------------------------------------------
-# # Load Files
-# # ----------------------------------------------------
-
-# @st.cache_resource
-# def load_model():
-#     model = joblib.load("best_fraud_model.pkl")
-#     scaler = joblib.load("scaler.pkl")
-#     return model, scaler
-
-# try:
-#     model, scaler = load_model()
-# except:
-#     model = None
-#     scaler = None
-
-# @st.cache_data
-# def load_data():
-#     return pd.read_csv("banking_transactions.csv")
-
-# try:
-#     df = load_data()
-# except:
-#     df = pd.DataFrame()
-
-# # ----------------------------------------------------
-# # Custom CSS
-# # ----------------------------------------------------
-
-# st.markdown("""
-# <style>
-
-# body{
-# background:#08111f;
-# }
-
-# .main{
-
-# background:linear-gradient(135deg,#08111f,#10263b);
-
-# }
-
-# .block-container{
-
-# padding-top:2rem;
-
-# }
-
-# .metric-card{
-
-# background:#14263d;
-
-# padding:18px;
-
-# border-radius:15px;
-
-# box-shadow:0 0 12px rgba(0,255,255,.15);
-
-# text-align:center;
-
-# }
-
-# .metric-card h3{
-
-# color:white;
-
-# }
-
-# .metric-card p{
-
-# font-size:30px;
-
-# color:#00E5FF;
-
-# font-weight:bold;
-
-# }
-
-# .sidebar .sidebar-content{
-
-# background:#0b1726;
-
-# }
-
-# .stButton>button{
-
-# background:#00BFFF;
-
-# color:white;
-
-# border-radius:12px;
-
-# height:50px;
-
-# font-size:18px;
-
-# font-weight:bold;
-
-# width:100%;
-
-# }
-
-# .stButton>button:hover{
-
-# background:#008cff;
-
-# }
-
-# hr{
-
-# border:1px solid #1d3b5c;
-
-# }
-
-# </style>
-# """,unsafe_allow_html=True)
-
-# # ----------------------------------------------------
-# # Header
-# # ----------------------------------------------------
-
-# st.markdown("""
-# <h1 style='text-align:center;color:#00E5FF'>
-# 🏦 AI Powered Banking Fraud Detection System
-# </h1>
-
-# <h4 style='text-align:center;color:white'>
-# Machine Learning Based Banking Risk Analysis Dashboard
-# </h4>
-
-# <hr>
-
-# """,unsafe_allow_html=True)
-
-# # ----------------------------------------------------
-# # Dashboard Cards
-# # ----------------------------------------------------
-
-# col1,col2,col3,col4=st.columns(4)
-
-# with col1:
-
-#     st.markdown(f"""
-#     <div class='metric-card'>
-#     <h3>Total Transactions</h3>
-#     <p>{len(df)}</p>
-#     </div>
-#     """,unsafe_allow_html=True)
-
-# with col2:
-
-#     if len(df)>0:
-
-#         fraud=df["is_fraud"].sum()
-
-#     else:
-
-#         fraud=0
-
-#     st.markdown(f"""
-#     <div class='metric-card'>
-#     <h3>Fraud Cases</h3>
-#     <p>{fraud}</p>
-#     </div>
-#     """,unsafe_allow_html=True)
-
-# with col3:
-
-#     if len(df)>0:
-
-#         safe=len(df)-fraud
-
-#     else:
-
-#         safe=0
-
-#     st.markdown(f"""
-#     <div class='metric-card'>
-#     <h3>Safe Transactions</h3>
-#     <p>{safe}</p>
-#     </div>
-#     """,unsafe_allow_html=True)
-
-# with col4:
-
-#     if len(df)>0:
-
-#         rate=round((fraud/len(df))*100,2)
-
-#     else:
-
-#         rate=0
-
-#     st.markdown(f"""
-#     <div class='metric-card'>
-#     <h3>Fraud Rate</h3>
-#     <p>{rate}%</p>
-#     </div>
-#     """,unsafe_allow_html=True)
-
-# st.write("")
-# # ==========================================================
-# # SIDEBAR - TRANSACTION INPUT FORM
-# # ==========================================================
-
-# st.sidebar.title("🏦 Transaction Details")
-
-# transaction_amount = st.sidebar.number_input(
-#     "Transaction Amount ($)",
-#     min_value=0.0,
-#     value=1000.0,
-#     step=100.0
-# )
-
-# login_attempts = st.sidebar.slider(
-#     "Login Attempts",
-#     0,20,2
-# )
-
-# device_risk_score = st.sidebar.slider(
-#     "Device Risk Score",
-#     0.0,1.0,0.30
-# )
-
-# transfer_frequency = st.sidebar.slider(
-#     "Transfer Frequency",
-#     0,100,10
-# )
-
-# anomaly_score = st.sidebar.slider(
-#     "Anomaly Score",
-#     0.0,1.0,0.20
-# )
-
-# account_age_days = st.sidebar.slider(
-#     "Account Age (Days)",
-#     1,5000,365
-# )
-
-# transaction_time_hour = st.sidebar.slider(
-#     "Transaction Hour",
-#     0,23,12
-# )
-
-# failed_transactions_last_30d = st.sidebar.slider(
-#     "Failed Transactions (30 Days)",
-#     0,50,2
-# )
-
-# avg_monthly_balance = st.sidebar.number_input(
-#     "Average Monthly Balance",
-#     value=50000.0
-# )
-
-# daily_transaction_count = st.sidebar.slider(
-#     "Daily Transactions",
-#     0,100,5
-# )
-
-# geo_distance_km = st.sidebar.slider(
-#     "Geo Distance (KM)",
-#     0.0,5000.0,100.0
-# )
-
-# session_duration_minutes = st.sidebar.slider(
-#     "Session Duration (Minutes)",
-#     1,300,30
-# )
-
-# transaction_velocity_score = st.sidebar.slider(
-#     "Velocity Score",
-#     0.0,1.0,0.40
-# )
-
-# payment_channel = st.sidebar.selectbox(
-#     "Payment Channel",
-#     [
-#         "UPI",
-#         "Credit Card",
-#         "Debit Card",
-#         "Net Banking",
-#         "Wallet"
-#     ]
-# )
-
-# authentication_type = st.sidebar.selectbox(
-#     "Authentication",
-#     [
-#         "OTP",
-#         "PIN",
-#         "Biometric",
-#         "Password"
-#     ]
-# )
-
-# card_present_flag = st.sidebar.selectbox(
-#     "Card Present",
-#     ["Yes","No"]
-# )
-
-# international_transaction_flag = st.sidebar.selectbox(
-#     "International Transaction",
-#     ["Yes","No"]
-# )
-
-# suspicious_ip_flag = st.sidebar.selectbox(
-#     "Suspicious IP",
-#     ["Yes","No"]
-# )
-
-# predict_btn = st.sidebar.button("🚀 Predict Fraud")
-# st.subheader("📋 Transaction Summary")
-
-# c1,c2,c3 = st.columns(3)
-
-# with c1:
-#     st.info(f"""
-# **Transaction Amount**
-
-# ${transaction_amount:,.2f}
-# """)
-
-#     st.info(f"""
-# **Login Attempts**
-
-# {login_attempts}
-# """)
-
-#     st.info(f"""
-# **Transfer Frequency**
-
-# {transfer_frequency}
-# """)
-
-# with c2:
-
-#     st.info(f"""
-# **Monthly Balance**
-
-# ${avg_monthly_balance:,.2f}
-# """)
-
-#     st.info(f"""
-# **Geo Distance**
-
-# {geo_distance_km:.1f} KM
-# """)
-
-#     st.info(f"""
-# **Session Duration**
-
-# {session_duration_minutes} Minutes
-# """)
-
-# with c3:
-
-#     st.info(f"""
-# **Payment**
-
-# {payment_channel}
-# """)
-
-#     st.info(f"""
-# **Authentication**
-
-# {authentication_type}
-# """)
-
-#     st.info(f"""
-# **Velocity Score**
-
-# {transaction_velocity_score}
-# """)
 import streamlit as st
+import pandas as pd
+import numpy as np
+import joblib
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime
+
+# ===============================
+# PAGE CONFIG
+# ===============================
 
 st.set_page_config(
     page_title="AI Banking Fraud Detection",
     page_icon="🏦",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# ---------------- CSS ----------------
+# ===============================
+# LOAD MODEL
+# ===============================
+
+@st.cache_resource
+def load_model():
+    try:
+        model = joblib.load("best_fraud_model.pkl")
+    except:
+        model = None
+
+    try:
+        scaler = joblib.load("scaler.pkl")
+    except:
+        scaler = None
+
+    return model, scaler
+
+model, scaler = load_model()
+
+# ===============================
+# CSS
+# ===============================
+
 st.markdown("""
 <style>
+
+#MainMenu{
+visibility:hidden;
+}
+
+footer{
+visibility:hidden;
+}
+
+header{
+visibility:hidden;
+}
+
 .main{
-    background:#0E1117;
+background:#0f172a;
 }
-.stButton>button{
-    width:100%;
-    background:#00C853;
-    color:white;
-    border:none;
-    border-radius:10px;
-    height:45px;
-    font-size:18px;
+
+.block-container{
+padding-top:2rem;
+padding-bottom:2rem;
 }
-.card{
-    background:#1E1E1E;
-    padding:15px;
-    border-radius:15px;
-    border:1px solid #333;
+
+h1,h2,h3,h4{
+color:white;
 }
+
+.metric-card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0px 0px 20px rgba(0,255,255,.1);
+}
+
 .metric{
-    text-align:center;
-    font-size:30px;
-    font-weight:bold;
-    color:#00E676;
+font-size:34px;
+font-weight:bold;
+color:#00E5FF;
 }
+
+.subtitle{
+color:#94A3B8;
+font-size:14px;
+}
+
+.predict-btn button{
+background:#00C853;
+color:white;
+height:55px;
+font-size:20px;
+border-radius:10px;
+width:100%;
+}
+
+div[data-testid="stSidebar"]{
+background:#111827;
+}
+
 </style>
-""", unsafe_allow_html=True)
+""",unsafe_allow_html=True)
 
-# ---------------- Header ----------------
-st.title("🏦 AI Powered Banking Fraud Detection")
-st.caption("Machine Learning Based Fraud Detection System")
+# ===============================
+# SIDEBAR
+# ===============================
 
-# ---------------- Dashboard ----------------
-c1,c2,c3=st.columns(3)
+st.sidebar.image(
+"https://cdn-icons-png.flaticon.com/512/3064/3064197.png",
+width=90
+)
 
-with c1:
-    st.markdown("<div class='card'><h4>Total Transactions</h4><div class='metric'>15,240</div></div>",unsafe_allow_html=True)
+st.sidebar.title("🏦 Banking AI")
 
-with c2:
-    st.markdown("<div class='card'><h4>Fraud Alerts</h4><div class='metric'>284</div></div>",unsafe_allow_html=True)
+page=st.sidebar.radio(
+"Navigation",
+[
+"🏠 Dashboard",
+"🔍 Fraud Prediction",
+"📈 Analytics",
+"ℹ About"
+]
+)
 
-with c3:
-    st.markdown("<div class='card'><h4>Accuracy</h4><div class='metric'>97.8%</div></div>",unsafe_allow_html=True)
+st.sidebar.markdown("---")
 
-st.divider()
+st.sidebar.success("Model Status")
 
-# ---------------- Input ----------------
-left,right=st.columns(2)
+if model is not None:
+    st.sidebar.success("✅ Model Loaded")
+else:
+    st.sidebar.error("❌ Model Missing")
 
-with left:
-    amount=st.number_input("Transaction Amount",0.0)
-    attempts=st.number_input("Login Attempts",0)
-    device=st.slider("Device Risk",0.0,1.0,0.2)
+if scaler is not None:
+    st.sidebar.success("✅ Scaler Loaded")
+else:
+    st.sidebar.warning("⚠ Scaler Missing")
 
-with right:
-    transfer=st.number_input("Transfer Frequency",0)
-    anomaly=st.slider("Anomaly Score",0.0,1.0,0.3)
-    geo=st.number_input("Geo Distance (KM)",0)
+st.sidebar.markdown("---")
 
-st.divider()
+st.sidebar.write("Developed By")
+st.sidebar.info("Rishu Gurjar")
 
-if st.button("🔍 Predict Fraud"):
+# ===============================
+# DASHBOARD
+# ===============================
 
-    # Prediction yaha lagana
-    prediction="Safe"
+if page=="🏠 Dashboard":
 
-    if prediction=="Fraud":
-        st.error("🚨 Fraudulent Transaction Detected")
-        st.progress(90)
-    else:
-        st.success("✅ Genuine Transaction")
-        st.progress(20)
+    st.title("🏦 AI Powered Banking Fraud Detection")
+
+    st.caption("Machine Learning Based Banking Risk Analysis System")
+
+    c1,c2,c3,c4=st.columns(4)
+
+    with c1:
+        st.markdown("""
+        <div class="metric-card">
+        <div class="metric">97.8%</div>
+        <div class="subtitle">Model Accuracy</div>
+        </div>
+        """,unsafe_allow_html=True)
+
+    with c2:
+        st.markdown("""
+        <div class="metric-card">
+        <div class="metric">18</div>
+        <div class="subtitle">Input Features</div>
+        </div>
+        """,unsafe_allow_html=True)
+
+    with c3:
+        st.markdown("""
+        <div class="metric-card">
+        <div class="metric">24x7</div>
+        <div class="subtitle">Fraud Monitoring</div>
+        </div>
+        """,unsafe_allow_html=True)
+
+    with c4:
+        st.markdown("""
+        <div class="metric-card">
+        <div class="metric">AI</div>
+        <div class="subtitle">Prediction Engine</div>
+        </div>
+        """,unsafe_allow_html=True)
+
+    st.divider()
+
+    st.subheader("Project Overview")
+
+    st.write("""
+This AI system predicts whether a banking transaction is
+fraudulent or genuine using Machine Learning.
+
+✔ Fraud Detection
+
+✔ Risk Analysis
+
+✔ Banking Security    
+
+✔ Transaction Monitoring
+
+✔ Explainable Prediction
+""")
+
+# ==========================================================
+# FRAUD PREDICTION PAGE
+# ==========================================================
+
+elif page == "🔍 Fraud Prediction":
+
+    st.title("🔍 Banking Fraud Prediction")
+
+    st.info("Fill all transaction details and click Predict Fraud.")
+
+    with st.form("prediction_form"):
+
+        st.subheader("💳 Transaction Information")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            transaction_amount = st.number_input(
+                "Transaction Amount",
+                min_value=0.0,
+                value=1000.0
+            )
+
+            login_attempts = st.number_input(
+                "Login Attempts",
+                min_value=0,
+                value=1
+            )
+
+            device_risk_score = st.slider(
+                "Device Risk Score",
+                0.0,
+                1.0,
+                0.20
+            )
+
+            transfer_frequency = st.number_input(
+                "Transfer Frequency",
+                min_value=0,
+                value=2
+            )
+
+            anomaly_score = st.slider(
+                "Anomaly Score",
+                0.0,
+                1.0,
+                0.15
+            )
+
+            account_age_days = st.number_input(
+                "Account Age (Days)",
+                min_value=0,
+                value=365
+            )
+
+            transaction_time_hour = st.slider(
+                "Transaction Hour",
+                0,
+                23,
+                14
+            )
+
+            failed_transactions_last_30d = st.number_input(
+                "Failed Transactions (30 Days)",
+                min_value=0,
+                value=0
+            )
+
+            avg_monthly_balance = st.number_input(
+                "Average Monthly Balance",
+                min_value=0.0,
+                value=50000.0
+            )
+
+        with col2:
+
+            daily_transaction_count = st.number_input(
+                "Daily Transaction Count",
+                min_value=0,
+                value=3
+            )
+
+            geo_distance_km = st.number_input(
+                "Geo Distance (KM)",
+                min_value=0.0,
+                value=5.0
+            )
+
+            session_duration_minutes = st.number_input(
+                "Session Duration (Minutes)",
+                min_value=0.0,
+                value=8.0
+            )
+
+            transaction_velocity_score = st.slider(
+                "Transaction Velocity Score",
+                0.0,
+                1.0,
+                0.30
+            )
+
+            payment_channel = st.selectbox(
+                "Payment Channel",
+                [
+                    "UPI",
+                    "Debit Card",
+                    "Credit Card",
+                    "Net Banking",
+                    "Wallet"
+                ]
+            )
+
+            authentication_type = st.selectbox(
+                "Authentication Type",
+                [
+                    "OTP",
+                    "PIN",
+                    "Biometric",
+                    "Password"
+                ]
+            )
+
+            card_present_flag = st.selectbox(
+                "Card Present",
+                [0,1]
+            )
+
+            international_transaction_flag = st.selectbox(
+                "International Transaction",
+                [0,1]
+            )
+
+            suspicious_ip_flag = st.selectbox(
+                "Suspicious IP",
+                [0,1]
+            )
+
+        st.divider()
+
+        submitted = st.form_submit_button(
+            "🚨 Predict Fraud"
+        )
+
+    # =====================================================
+    # FEATURE ENGINEERING
+    # =====================================================
+
+    if submitted:
+
+        security_risk_score = (
+            device_risk_score
+            + anomaly_score
+            + suspicious_ip_flag
+        )
+
+        behavior_risk_score = (
+            transfer_frequency
+            + login_attempts
+            + failed_transactions_last_30d
+        )
+
+        geo_risk = geo_distance_km
+
+        frequency_risk = (
+            daily_transaction_count
+            + transfer_frequency
+        )
+
+        fraud_score = (
+            security_risk_score
+            + behavior_risk_score
+            + transaction_velocity_score
+        )
+
+        payment_map = {
+            "UPI":0,
+            "Debit Card":1,
+            "Credit Card":2,
+            "Net Banking":3,
+            "Wallet":4
+        }
+
+        auth_map = {
+            "OTP":0,
+            "PIN":1,
+            "Biometric":2,
+            "Password":3
+        }
+
+        payment_channel = payment_map[payment_channel]
+        authentication_type = auth_map[authentication_type]
+
+        input_data = pd.DataFrame({
+
+            "transaction_amount":[transaction_amount],
+            "login_attempts":[login_attempts],
+            "device_risk_score":[device_risk_score],
+            "transfer_frequency":[transfer_frequency],
+            "anomaly_score":[anomaly_score],
+            "account_age_days":[account_age_days],
+            "transaction_time_hour":[transaction_time_hour],
+            "failed_transactions_last_30d":[failed_transactions_last_30d],
+            "avg_monthly_balance":[avg_monthly_balance],
+            "daily_transaction_count":[daily_transaction_count],
+            "geo_distance_km":[geo_distance_km],
+            "session_duration_minutes":[session_duration_minutes],
+            "transaction_velocity_score":[transaction_velocity_score],
+            "payment_channel":[payment_channel],
+            "authentication_type":[authentication_type],
+            "card_present_flag":[card_present_flag],
+            "international_transaction_flag":[international_transaction_flag],
+            "suspicious_ip_flag":[suspicious_ip_flag],
+
+            "security_risk_score":[security_risk_score],
+            "behavior_risk_score":[behavior_risk_score],
+            "geo_risk":[geo_risk],
+            "frequency_risk":[frequency_risk],
+            "fraud_score":[fraud_score]
+
+        })
+
+        st.success("✅ Input Captured Successfully")
+    
+
+
+
+
+
+    
