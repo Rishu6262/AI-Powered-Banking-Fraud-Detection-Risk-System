@@ -146,17 +146,6 @@ Risk Analysis Dashboard
 - Dataset Summary
 - Interactive KPIs
 
-## Data Analysis
-
-- Dataset Preview
-- Missing Value Analysis
-- Correlation Heatmap
-- Fraud Distribution
-- Transaction Analysis
-- Payment Channel Analysis
-- Authentication Analysis
-- Risk Score Analysis
-
 ## Feature Engineering
 
 - Balance Usage Ratio
