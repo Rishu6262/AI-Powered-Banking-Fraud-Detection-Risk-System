@@ -513,3 +513,324 @@ After analyzing the banking dataset, the following observations were identified:
 - Customers with multiple failed login attempts show higher fraud risk.
 - High transaction velocity combined with long geo distance indicates suspicious behavior.
 - Feature Engineering substantially improves fraud detection performance compared to using raw features alone.
+
+---
+
+# 🤖 Machine Learning Pipeline
+
+After completing data preprocessing and feature engineering, the dataset was prepared for Machine Learning model training.
+
+The complete ML pipeline follows these steps:
+
+```text
+Raw Dataset
+      │
+      ▼
+Data Cleaning
+      │
+      ▼
+Feature Engineering
+      │
+      ▼
+Categorical Encoding
+      │
+      ▼
+Feature Scaling
+      │
+      ▼
+Train-Test Split
+      │
+      ▼
+Model Training
+      │
+      ▼
+Model Evaluation
+      │
+      ▼
+Best Model Selection
+      │
+      ▼
+Model Saving
+      │
+      ▼
+Streamlit Deployment
+```
+
+---
+
+# ✂️ Train-Test Split
+
+The processed dataset was divided into two parts.
+
+| Dataset | Percentage |
+|----------|-----------:|
+| Training Data | 80% |
+| Testing Data | 20% |
+
+The training dataset was used for learning patterns while the testing dataset was used to evaluate model performance on unseen transactions.
+
+---
+
+# ⚙️ Feature Scaling
+
+Since different banking features have different value ranges, feature scaling was performed before model training.
+
+### StandardScaler
+
+The following numerical features were standardized:
+
+- Transaction Amount
+- Login Attempts
+- Device Risk Score
+- Transfer Frequency
+- Account Age
+- Average Monthly Balance
+- Daily Transaction Count
+- Geo Distance
+- Session Duration
+- Transaction Velocity Score
+- Engineered Features
+
+### Benefits
+
+- Faster convergence
+- Better model performance
+- Equal feature contribution
+- Improved prediction stability
+
+---
+
+# 🏷️ Categorical Encoding
+
+Categorical variables were converted into numerical format using **One-Hot Encoding**.
+
+Encoded columns include:
+
+### Payment Channel
+
+- ATM
+- Mobile App
+- POS Terminal
+- Web Banking
+
+### Authentication Type
+
+- Biometric
+- OTP
+- Password Only
+- Two-Factor Authentication
+
+This preprocessing ensures compatibility with machine learning algorithms.
+
+---
+
+# 🧠 Machine Learning Models
+
+Multiple classification algorithms were trained and compared to identify the best-performing fraud detection model.
+
+## 1. Logistic Regression
+
+Used as the baseline model.
+
+Advantages:
+
+- Fast
+- Easy to interpret
+- Good baseline
+
+---
+
+## 2. Decision Tree
+
+Used for learning decision rules from banking transaction features.
+
+Advantages:
+
+- Easy visualization
+- Handles non-linear relationships
+- Simple interpretation
+
+---
+
+## 3. Random Forest ⭐
+
+Random Forest combines multiple Decision Trees to improve prediction accuracy and reduce overfitting.
+
+Advantages:
+
+- High Accuracy
+- Robust
+- Less Overfitting
+- Handles Large Feature Space
+
+---
+
+## 4. XGBoost
+
+Gradient Boosting based algorithm optimized for speed and performance.
+
+Advantages:
+
+- Excellent Accuracy
+- Handles Complex Data
+- High Performance
+
+---
+
+## 5. CatBoost
+
+Gradient boosting algorithm designed for categorical data.
+
+Advantages:
+
+- Handles categorical variables efficiently
+- Good generalization
+- Strong prediction performance
+
+---
+
+## 6. LightGBM
+
+Microsoft's Gradient Boosting implementation optimized for large datasets.
+
+Advantages:
+
+- Very Fast
+- Memory Efficient
+- High Accuracy
+
+---
+
+# 📊 Model Evaluation Metrics
+
+Each model was evaluated using multiple classification metrics.
+
+### Accuracy
+
+Measures the overall percentage of correct predictions.
+
+---
+
+### Precision
+
+Measures how many predicted fraud transactions were actually fraudulent.
+
+---
+
+### Recall
+
+Measures how many actual fraud transactions were successfully detected.
+
+---
+
+### F1 Score
+
+Balances Precision and Recall into one metric.
+
+---
+
+### ROC-AUC Score
+
+Measures the model's ability to distinguish between fraud and genuine transactions.
+
+---
+
+# 📈 Model Comparison
+
+The trained models were compared based on:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- ROC-AUC
+- Training Time
+
+The comparison helped identify the most reliable model for deployment.
+
+---
+
+# 🏆 Best Model Selection
+
+After evaluating all models, the best-performing model was selected based on overall performance.
+
+Selection criteria included:
+
+- Highest Accuracy
+- Strong Recall
+- Better Precision
+- High ROC-AUC
+- Stable Performance
+- Low Overfitting
+
+The selected model was saved using **Joblib**.
+
+```python
+import joblib
+
+joblib.dump(best_model, "best_fraud_model.pkl")
+joblib.dump(scaler, "scaler.pkl")
+```
+
+---
+
+# 💾 Model Deployment Files
+
+The following files are used in the deployed application:
+
+| File | Purpose |
+|------|---------|
+| best_fraud_model.pkl | Trained Machine Learning Model |
+| scaler.pkl | StandardScaler |
+| banking_transactions.csv | Dataset |
+| app.py | Streamlit Application |
+| requirements.txt | Python Dependencies |
+
+---
+
+# 🔍 Fraud Prediction Workflow
+
+Whenever a user enters transaction details, the application performs the following steps:
+
+1. Accept user input from Streamlit.
+2. Validate transaction details.
+3. Apply Feature Engineering.
+4. Generate business-driven risk features.
+5. Perform One-Hot Encoding.
+6. Arrange features in the same order as training.
+7. Apply StandardScaler.
+8. Load the trained model.
+9. Predict fraud probability.
+10. Display:
+    - Fraud / Genuine Prediction
+    - Fraud Probability
+    - Confidence Score
+    - Risk Level
+    - Recommendation
+
+---
+
+# 🎯 Business Decision Logic
+
+The prediction probability is converted into business-friendly risk levels.
+
+| Probability | Risk Level | Recommended Action |
+|-------------|------------|--------------------|
+| 0% – 40% | 🟢 Low | Approve Transaction |
+| 40% – 75% | 🟡 Medium | Manual Review |
+| 75% – 100% | 🔴 High | Block Transaction |
+
+---
+
+# 🚀 Deployment
+
+The final trained model was integrated into a professional Streamlit web application.
+
+The deployed application supports:
+
+- Live Fraud Prediction
+- Risk Analysis
+- Banking Dashboard
+- Analytics
+- Downloadable Prediction Reports
+- Interactive User Interface
