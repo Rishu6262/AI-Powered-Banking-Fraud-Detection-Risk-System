@@ -834,3 +834,341 @@ The deployed application supports:
 - Analytics
 - Downloadable Prediction Reports
 - Interactive User Interface
+
+---
+
+# 🖥️ Streamlit Web Application
+
+A professional and interactive **Streamlit Dashboard** was developed to make the Machine Learning model accessible through a user-friendly web interface.
+
+The application allows users to:
+
+- Predict fraudulent transactions in real time.
+- Analyze banking transaction patterns.
+- View interactive analytics dashboards.
+- Generate fraud reports.
+- Understand transaction risk through business-friendly insights.
+
+---
+
+# 📋 Application Modules
+
+The Streamlit application consists of four major modules.
+
+```
+🏠 Dashboard
+
+🔍 Fraud Prediction
+
+📊 Analytics
+
+ℹ About
+```
+
+---
+
+# 🏠 Dashboard
+
+The Dashboard provides an overview of the banking fraud detection system.
+
+### Dashboard Features
+
+- Project Overview
+- Model Status
+- Dataset Information
+- Total Transactions
+- Number of Features
+- AI Prediction Engine Status
+- Recent Transactions Preview
+- Professional Banking UI
+
+---
+
+# 🔍 Fraud Prediction
+
+The Fraud Prediction page is the core module of the application.
+
+Users enter transaction details manually and the model predicts whether the transaction is fraudulent.
+
+## User Inputs
+
+### Transaction Details
+
+- Transaction ID
+- Transaction Amount
+- Transaction Time
+- Transfer Frequency
+
+### Customer Details
+
+- Login Attempts
+- Failed Transactions
+- Account Age
+- Average Monthly Balance
+
+### Device Details
+
+- Device Risk Score
+- Session Duration
+- Geo Distance
+- Transaction Velocity
+
+### Security Details
+
+- Suspicious IP
+- Card Present
+- International Transaction
+- Payment Channel
+- Authentication Type
+
+---
+
+# ⚙ Prediction Pipeline
+
+Whenever the user clicks **Predict Fraud**, the following workflow is executed.
+
+```
+User Input
+
+↓
+
+Feature Engineering
+
+↓
+
+Business Risk Features
+
+↓
+
+One-Hot Encoding
+
+↓
+
+Feature Ordering
+
+↓
+
+StandardScaler
+
+↓
+
+Random Forest Model
+
+↓
+
+Prediction
+
+↓
+
+Fraud Probability
+
+↓
+
+Risk Analysis
+
+↓
+
+Recommendation
+```
+
+---
+
+# 📊 Prediction Output
+
+The application displays:
+
+- Fraud / Genuine Prediction
+- Fraud Probability
+- Confidence Score
+- Risk Level
+- Transaction Summary
+- Recommendation
+- Downloadable Report
+
+---
+
+# 📈 Analytics Dashboard
+
+The Analytics page provides interactive visualizations to understand transaction behaviour and fraud patterns.
+
+### Available Charts
+
+- Dataset Preview
+- Fraud Distribution
+- Payment Channel Distribution
+- Authentication Distribution
+- Transaction Amount Histogram
+- Device Risk Distribution
+- Correlation Heatmap
+- Dataset Statistics
+
+---
+
+# 📁 Project Structure
+
+```text
+AI_Banking_Fraud_Detection/
+│
+├── app.py
+├── banking_transactions.csv
+├── best_fraud_model.pkl
+├── scaler.pkl
+├── requirements.txt
+├── README.md
+│
+├── notebooks/
+│      AI_Powered_Banking_Fraud_Detection.ipynb
+│
+├── assets/
+│
+└── .streamlit/
+       config.toml
+```
+
+---
+
+# 📦 Python Dependencies
+
+Major libraries used in this project include:
+
+- Streamlit
+- Pandas
+- NumPy
+- Plotly
+- Matplotlib
+- Scikit-Learn
+- XGBoost
+- CatBoost
+- LightGBM
+- Joblib
+
+---
+
+# ⚡ Installation Guide
+
+Clone the repository
+
+```bash
+git clone https://github.com/yourusername/AI-Banking-Fraud-Detection.git
+```
+
+Move into project folder
+
+```bash
+cd AI-Banking-Fraud-Detection
+```
+
+Install required libraries
+
+```bash
+pip install -r requirements.txt
+```
+
+Run Streamlit application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+# ☁️ Deployment
+
+The project is deployment-ready and can be hosted on:
+
+- Streamlit Community Cloud
+- Render
+- Railway
+- Hugging Face Spaces
+- Microsoft Azure
+- AWS EC2
+- Google Cloud Platform
+
+---
+
+# 📸 Application Screenshots
+
+## Dashboard
+
+> Add Dashboard Screenshot Here
+
+---
+
+## Fraud Prediction
+
+> Add Prediction Screenshot Here
+
+---
+
+## Analytics
+
+> Add Analytics Screenshot Here
+
+---
+
+## About Page
+
+> Add About Page Screenshot Here
+
+---
+
+# 📊 End-to-End Workflow
+
+```text
+Banking Dataset
+        │
+        ▼
+Data Cleaning
+        │
+        ▼
+Exploratory Data Analysis
+        │
+        ▼
+Feature Engineering
+        │
+        ▼
+Data Preprocessing
+        │
+        ▼
+Feature Scaling
+        │
+        ▼
+Train-Test Split
+        │
+        ▼
+Machine Learning Models
+        │
+        ▼
+Model Comparison
+        │
+        ▼
+Best Model Selection
+        │
+        ▼
+Model Saving
+        │
+        ▼
+Streamlit Dashboard
+        │
+        ▼
+Fraud Prediction
+        │
+        ▼
+Risk Analysis
+        │
+        ▼
+Business Recommendation
+```
+
+---
+
+# 🔒 Security Considerations
+
+This project demonstrates how Machine Learning can assist banking systems by:
+
+- Detecting suspicious transactions
+- Identifying risky customer behaviour
+- Reducing financial fraud
+- Improving fraud investigation
+- Supporting banking decision-making
+- Providing explainable risk scores
